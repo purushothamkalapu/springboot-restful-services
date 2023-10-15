@@ -5,6 +5,7 @@ import com.purushotham.springbootrestfulservice.entity.User;
 import com.purushotham.springbootrestfulservice.exception.ErrorDetails;
 import com.purushotham.springbootrestfulservice.exception.ResourceNotFoundException;
 import com.purushotham.springbootrestfulservice.service.UserService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
 import org.springframework.http.HttpStatus;
@@ -24,7 +25,7 @@ public class UserController {
 
     // build create User REST API
     @PostMapping
-    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO user){
+    public ResponseEntity<UserDTO> createUser(@Valid @RequestBody UserDTO user){
         UserDTO savedUser = userService.createUser(user);
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
     }
@@ -48,7 +49,7 @@ public class UserController {
     // Build Update User REST API
     @PutMapping("{id}")
     // http://localhost:8080/api/users/1
-    public ResponseEntity<UserDTO> updateUser(@PathVariable("id") Long userId,
+    public ResponseEntity<UserDTO> updateUser(@Valid @PathVariable("id") Long userId,
                                            @RequestBody UserDTO userDTO){
         userDTO.setId(userId);
         UserDTO updatedUser = userService.updateUser(userDTO);
