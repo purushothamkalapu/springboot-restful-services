@@ -5,6 +5,9 @@ import com.purushotham.springbootrestfulservice.entity.User;
 import com.purushotham.springbootrestfulservice.exception.ErrorDetails;
 import com.purushotham.springbootrestfulservice.exception.ResourceNotFoundException;
 import com.purushotham.springbootrestfulservice.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 
@@ -15,7 +18,10 @@ import org.springframework.web.context.request.WebRequest;
 
 import java.time.LocalDateTime;
 import java.util.List;
-
+@Tag(
+        name = "CRUD REST APIs User Resource",
+        description = "CRUD REST APIs Create , Update, GET by user id, Get All , Delete User Resource"
+)
 @RestController
 @AllArgsConstructor
 @RequestMapping("api/users")
@@ -25,6 +31,14 @@ public class UserController {
 
     // build create User REST API
     @PostMapping
+    @Operation(
+            summary="Create User REST API",
+            description="Create User REST API is used to Save user in a database"
+    )
+    @ApiResponse(
+            responseCode = "201",
+            description="HTTP Status 201 Created"
+    )
     public ResponseEntity<UserDTO> createUser(@Valid @RequestBody UserDTO user){
         UserDTO savedUser = userService.createUser(user);
         return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
@@ -33,6 +47,14 @@ public class UserController {
     // build get user by id REST API
     // http://localhost:8080/api/users/1
     @GetMapping("{id}")
+    @Operation(
+            summary="Get User by ID REST API",
+            description="Get User By ID REST API i used to get a single user from database"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description="HTTP Status 200 Successfully"
+    )
     public ResponseEntity<UserDTO> getUserById(@PathVariable("id") Long userId){
         UserDTO user = userService.getUserById(userId);
         return new ResponseEntity<>(user, HttpStatus.OK);
@@ -41,6 +63,14 @@ public class UserController {
     // Build Get All Users REST API
     // http://localhost:8080/api/users
     @GetMapping
+    @Operation(
+            summary="Get All Users  REST API",
+            description="Get All Users  REST API i used to get a single user from database"
+    )
+    @ApiResponse(
+            responseCode = "200",
+            description="HTTP Status 200 Successfully"
+    )
     public ResponseEntity<List<UserDTO>> getAllUsers(){
         List<UserDTO> users = userService.getAllUsers();
         return new ResponseEntity<>(users, HttpStatus.OK);
